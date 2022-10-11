@@ -1,0 +1,15 @@
+{# INDEX.HTML #}
+<p>
+    {% if cart %}
+    The cart you entered is {{cart}}
+    Update it in the form below:
+    {% else %}
+    Please enter the items:
+    {% endif %}
+</p>
+
+<form method="POST">
+    {{ form.hidden_tag() }}
+    {{ form.cart.label}} {{form.cart()}}
+    {{form.submit() }}
+</form>
