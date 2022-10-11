@@ -10,12 +10,8 @@ class itemsField extends React.Component {
     render(){        
         const field_array = [];
         for(let i = 0; i < this.state.numfields; i++){
-            const editableField = e(editableFields);
-            
-            let field = new(editableFields);
-            //field_array.push(field.renderLeft());
-            field_array.push(editableField);
-            //field_array.push(editableField);
+            const editableField = e(editableFields);                                
+            field_array.push(editableField);            
         }
         const addButton = e(
             'button',
@@ -58,11 +54,11 @@ class editableFields extends React.Component {
         let rightCol;
 
         if(this.state.editing == true){
-            const nameField = e("input", {value: this.state.name, onChange: this.handleNameChange});    
-            const priceField = e("input", {value: this.state.price, onChange: this.handlePriceChange});
+            const nameField = e("input", {value: this.state.name, onChange: this.handleNameChange, class: "form-control"});    
+            const priceField = e("input", {value: this.state.price, onChange: this.handlePriceChange, class: "form-control"});
             const saveButton = e(
                 'button',
-                { onClick: () => this.setState({ editing: false }) },
+                { onClick: () => this.setState({ editing: false }), class:"btn btn-outline-primary"},
                 'Save'
               );
             leftCol = e("div", {class: "col-sm"}, nameField);
@@ -75,7 +71,7 @@ class editableFields extends React.Component {
             const priceLabel = e("span", null, this.state.price);
             const editButton = e(
                 'button',
-                { onClick: () => this.setState({ editing: true }) },
+                { onClick: () => this.setState({ editing: true }), class:"btn btn-outline-primary"},
                 'Edit'
               );
             leftCol = e("div", {class: "col-sm"}, nameLabel);
@@ -83,7 +79,7 @@ class editableFields extends React.Component {
             rightCol = e("div", {class: "col-sm"}, editButton);
             //return e("p", null, nameLabel, priceLabel, editButton);
         }
-        return e("div", {class: "row"}, leftCol, midCol, rightCol);
+        return e("div", {class: "input"}, e("div", {class: "row"}, leftCol, midCol, rightCol));
     }
 }
 
