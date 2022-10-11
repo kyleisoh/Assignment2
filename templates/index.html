@@ -1,16 +1,43 @@
-{# INDEX.HTML #}
-<p>
-    {% if item %}
-    The item you entered is {{item}}
-    <br>
-    Update it in the form below:
-    {% else %}
-    Please enter the items:
-    {% endif %}
-</p>
+<html lang="en">
 
-<form method="POST">
-    {{ form.hidden_tag() }}
-    {{ form.item.label}} {{form.item()}}
-    {{form.submit() }}
-</form>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Try</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <style>
+        .center {
+            git text-align: center;
+            border: 3px solid blue;
+            margin-left: 20%;
+            margin-right: 20%;
+            margin-top: 5%;
+            padding-left: 7%;
+            padding-right: 5%;
+        }
+
+        .input {
+            margin-top: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="center" id="interface"></div>
+
+    <!-- Load React. -->
+    <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+
+    <!-- Load our React component. -->
+    <script src="interface.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
