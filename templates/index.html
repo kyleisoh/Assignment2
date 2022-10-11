@@ -1,7 +1,8 @@
 {# INDEX.HTML #}
 <p>
-    {% if cart %}
-    The cart you entered is {{cart}}
+    {% if item %}
+    The item you entered is {{item}}
+    <br>
     Update it in the form below:
     {% else %}
     Please enter the items:
@@ -10,6 +11,6 @@
 
 <form method="POST">
     {{ form.hidden_tag() }}
-    {{ form.cart.label}} {{form.cart()}}
+    {{ form.item.label}} {{form.item()}}
     {{form.submit() }}
 </form>
