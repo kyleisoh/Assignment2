@@ -3,9 +3,19 @@ const e = React.createElement;
 class itemsField extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { numfields:1};
+        this.state = { numfields:1, tax:0, discount:0};
+        this.handleDiscount = this.handleDiscount.bind(this);
+        this.handleTax = this.handleTax.bind(this);
     }
     
+    handleDiscount(event){
+        this.setState({discount: event.target.value});
+    }
+
+    handleTax(event){
+        this.setState({tax: event.target.value});
+    }
+
 
     render(){        
         const field_array = [];
@@ -32,7 +42,14 @@ class itemsField extends React.Component {
         field_array.push(addButton);
         field_array.push(delButton);
         field_array.push(e("hr", null, null));
-
+        field_array.push(e("p", {class: "summary_text"}, "Net-total: "));
+        const tax = e("div", {class: "col-sm"}, e("span", null, "Tax: "), e("input", {value: this.state.tax, onChange: this.handleTax, class: "form-control"}, null));
+        const discount = e("div", {class: "col-sm"}, e("span", null, "Discount: "), e("input", {value: this.state.discount, onChange: this.handleDiscount, class: "form-control"}, null));
+        
+        //field_array.push(e("div", {class: "row"}, placeHolder, placeHolder, ));
+        field_array.push(e("div", {class: "row"}, discount, tax, placeHolder));
+        field_array.push(e("hr", null, null));
+        field_array.push(e("p", {class: "summary_text"}, "Grand-total: "));
         
         
         return e("div", null, field_array);        
@@ -50,6 +67,7 @@ class editableFields extends React.Component {
         this.handleAmountChange = this.handleAmountChange.bind(this);
     }    
 
+    //sync with backend at event handlers here
     handleNameChange(event) {
         this.setState({name: event.target.value});
     }
