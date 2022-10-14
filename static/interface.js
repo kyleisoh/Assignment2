@@ -23,7 +23,7 @@ class itemsField extends React.Component {
 
     saveTax(){
         fetch(address, {
-            method: 'UPDATE',
+            method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ action: "tax", amount: this.state.tax})
         })
@@ -31,7 +31,7 @@ class itemsField extends React.Component {
 
     saveDiscount(){
         fetch(address, {
-            method: 'UPDATE',
+            method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ action: "discount", amount: this.state.discount})
         })
@@ -42,7 +42,7 @@ class itemsField extends React.Component {
         fetch(address, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ action: "add", id: this.numfields, })
+            body: JSON.stringify({ action: "add", id: this.state.numfields, item_name: "default", item_price: 0, item_amount: 0})
         })
     }
 
@@ -125,7 +125,7 @@ class editableFields extends React.Component {
     buttonOnSave(){
         this.setState({ editing: false });
         fetch(address, {
-            method: 'UPDATE',
+            method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ action: "update", id: this.id, item_name: this.state.name,  item_price: this.state.price, item_amount: this.state.amount })
         })
