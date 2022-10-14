@@ -19,36 +19,33 @@ cart = Cart()
 ####### Route Decorators #######
 
 
-@app.route('/', methods=['POST', 'GET', 'UPDATE', 'DELETE'])
+@app.route('/', methods=['POST', 'GET', 'DELETE'])
 @cross_origin()
 def index():
     if (request.method == 'POST'):
         itemData = request.get_json()
-        # Initialize Item
-        item = Item(itemData['id'], itemData['item_name'],
-                    itemData['item_price'], itemData['item_amount'])
+        if (itemData['action'] == 'add'):
+            # Initialize Item
+            item = Item(itemData['id'], itemData['item_name'],
+                        itemData['item_price'], itemData['item_amount'])
+            cart.addItem(item)
+            print(item.id)
+            print(item.name)
+            print(item.price)
+            print(item.quantity)
 
-        print(item.id)
-        print(item.name)
-        print(item.price)
-        print(item.quantity)
-
-        cart.addItem(item)
-
-    if (request.method == "UPDATE"):
-        itemData = request.get_json()
-        # Initialize Item
-        item = Item(itemData['id'], itemData['item_name'],
-                    itemData['item_price'], itemData['item_amount'])
-
-        cart.updateItem(item)
+        elif (itemData['action'] == 'update'):
+            # Update Item
+            item = Item(itemData['id'], itemData['item_name'],
+                        itemData['item_price'], itemData['item_amount'])
+            cart.updateItem(item)
+            print(item.id)
+            print(item.name)
+            print(item.price)
+            print(item.quantity)
         # return {
         #     'name': jsonData
         # }
-        print(item.id)
-        print(item.name)
-        print(item.price)
-        print(item.quantity)
 
     if (request.method == "GET"):
         pass
