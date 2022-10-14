@@ -23,6 +23,7 @@ class Cart():
         self.itemList[item.id] = item
 
     def applyDiscount(self) -> None:
+        pass
 
     def calculateSubTotal(self):
         self.subtotal = 0.00
