@@ -6,27 +6,29 @@ dummy = Item(-1, 0, 0, 0)
 
 class Cart():
     def __init__(self):
+        self.subtotal = 0
         self.discount = 0
-        self.tax = 100
-        self.pretax_totalprice = self.subtotal - \
-            (self.subtotal * (self.discount / 100))
-        self.aftertax_totalprice = self.pretax_totalprice * self.tax
+        self.tax = 0
+        self.total = 0
         self.itemList = [dummy]
 
     def addItem(self, item: Item) -> None:
         self.itemList.append(item)
 
     def removeItem(self) -> None:
-        self.itemList.pop()
+        removedItem = self.itemList.pop()
+        self.subtotal -= removedItem.price * self.quantity
+
+    def calculateSubTotal(self):
+        for item in self.itemList:
+            self.subtotal += item.price * item.quantity
 
     def updateItem(self, item: Item) -> None:
         self.itemList[item.id] = item
+        self.calculateSubTotal()
 
     def applyDiscount(self) -> None:
-        pass
+        self.subtotal -= self.discount * self.subtotal
 
-    def calculateSubTotal(self):
-        self.subtotal = 0.00
-
-    def calculateTotal(self) -> float:
-        return self.aftertax_totalprice
+    def calculateTotal(self):
+        self.total = self.subtotal * self.tax
