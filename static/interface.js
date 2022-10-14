@@ -9,6 +9,8 @@ class itemsField extends React.Component {
         this.handleTax = this.handleTax.bind(this);
         this.saveTax = this.saveTax.bind(this);
         this.saveDiscount = this.saveDiscount.bind(this);
+        this.handleAddButton = this.handleAddButton.bind(this);
+        this.handleDeleteButton = this.handleDeleteButton.bind(this);
     }
 
     handleDiscount(event) {
@@ -21,7 +23,7 @@ class itemsField extends React.Component {
 
     saveTax(){
         fetch(address, {
-            method: 'POST',
+            method: 'UPDATE',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ action: "tax", amount: this.state.tax})
         })
@@ -29,9 +31,27 @@ class itemsField extends React.Component {
 
     saveDiscount(){
         fetch(address, {
-            method: 'POST',
+            method: 'UPDATE',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ action: "discount", amount: this.state.discount})
+        })
+    }
+
+    handleAddButton(){
+        this.setState({ numfields: this.state.numfields + 1 });
+        fetch(address, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: "add"})
+        })
+    }
+
+    handleDeleteButton(){
+        this.setState({ numfields: this.state.numfields - 1 })
+        fetch(address, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: "delete"})
         })
     }
 
@@ -49,19 +69,19 @@ class itemsField extends React.Component {
         }
         const addButton = e(
             'button',
-            { onClick: () => this.setState({ numfields: this.state.numfields + 1 }) },
+            { onClick: this.handleAddButton },
             'add'
         );
         const delButton = e(
             'button',
-            { onClick: () => this.setState({ numfields: this.state.numfields - 1 }) },
+            { onClick: this.handleDeleteButton },
             'delete'
         );
         field_array.push(addButton);
         field_array.push(delButton);
         field_array.push(e("hr", null, null));
         field_array.push(e("p", { class: "summary_text" }, "Net-total: "));
-        const tax = e("div", { class: "col-sm" }, e("span", null, "Tax: "), e("input", { value: this.state.tax, onChange: this.handleTax, class: "form-control" },  null),
+        const tax = e("div", { class: "col-sm" }, e("span", null, "Tax(%):"), e("input", { value: this.state.tax, onChange: this.handleTax, class: "form-control" },  null),
           e('button', { onClick: this.saveTax}, "Save"));
         const discount = e("div", { class: "col-sm" }, e("span", null, "Discount: "), e("input", { value: this.state.discount, onChange: this.handleDiscount, class: "form-control" }, null), 
         e('button', { onClick: this.saveDiscount}, "Save"));
@@ -104,7 +124,7 @@ class editableFields extends React.Component {
     buttonOnSave(){
         this.setState({ editing: false });
         fetch(address, {
-            method: 'POST',
+            method: 'UPDATE',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ action: "update", id: this.id, item_name: this.state.name,  item_price: this.state.price, item_amount: this.state.amount, })
         })
