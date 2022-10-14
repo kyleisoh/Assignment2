@@ -43,9 +43,18 @@ def index():
             print(item.name)
             print(item.price)
             print(item.quantity)
-        # return {
-        #     'name': jsonData
-        # }
+
+        elif (itemData['action'] == 'discount'):
+            discountRate = itemData['discountRate']
+            cart.discount = int(discountRate)
+
+        elif (itemData['action'] == 'tax'):
+            taxRate = itemData['taxRate']
+            cart.tax = int(taxRate)
+
+        print(cart.subtotal)
+        cart.calculateTotal()
+        print(cart.total)
 
     if (request.method == "GET"):
         pass

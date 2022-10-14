@@ -28,8 +28,8 @@ class Cart():
         self.itemList[int(item.id)] = item
         self.calculateSubTotal()
 
-    def applyDiscount(self) -> None:
-        self.subtotal -= self.discount * self.subtotal
+    def calculateTotal(self) -> None:
+        self.total = self.subtotal * \
+            (1 - self.discount/100) * (1 + self.tax/100)
 
-    def calculateTotal(self):
-        self.total = self.subtotal * self.tax
+        self.total = round(self.total, 2)
