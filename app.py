@@ -25,8 +25,8 @@ def index():
     if (request.method == 'POST'):
         itemData = request.get_json()
         # Initialize Item
-        item = Item(
-            itemData['id'], itemData['item_name'], itemData['item_price'], itemData['item_amount'])
+        item = Item(itemData['id'], itemData['item_name'],
+                    itemData['item_price'], itemData['item_amount'])
 
         print(item.id)
         print(item.name)
@@ -38,8 +38,8 @@ def index():
     if (request.method == "UPDATE"):
         itemData = request.get_json()
         # Initialize Item
-        item = Item(
-            itemData['id'], itemData['item_name'], itemData['item_price'], itemData['item_amount'])
+        item = Item(itemData['id'], itemData['item_name'],
+                    itemData['item_price'], itemData['item_amount'])
 
         cart.updateItem(item)
         # return {
@@ -54,7 +54,7 @@ def index():
         pass
 
     if (request.method == "DELETE"):
-        cart.itemList.removeItem()
+        cart.removeItem()
 
     return render_template("index.html")
 

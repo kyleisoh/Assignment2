@@ -17,14 +17,14 @@ class Cart():
 
     def removeItem(self) -> None:
         removedItem = self.itemList.pop()
-        self.subtotal -= removedItem.price * self.quantity
+        self.subtotal -= removedItem.price * removedItem.quantity
 
     def calculateSubTotal(self):
         for item in self.itemList:
             self.subtotal += item.price * item.quantity
 
     def updateItem(self, item: Item) -> None:
-        self.itemList[item.id] = item
+        self.itemList[int(item.id)] = item
         self.calculateSubTotal()
 
     def applyDiscount(self) -> None:
