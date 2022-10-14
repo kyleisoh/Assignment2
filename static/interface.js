@@ -24,7 +24,7 @@ class itemsField extends React.Component {
         field_array.push(e("div", { class: "row" }, namelabel, pricelabel, amountlabel, placeHolder));
 
         for (let i = 0; i < this.state.numfields; i++) {
-            const editableField = e(editableFields);
+            const editableField = e(editableFields, {id:i});
             field_array.push(editableField);
         }
         const addButton = e(
@@ -58,37 +58,33 @@ class itemsField extends React.Component {
 class editableFields extends React.Component {
     constructor(props) {
         super(props);
+        this.id = props.id
         this.state = { name: "default", price: 0, amount: 0, editing: true };
         this.handleNameChange = this.handleNameChange.bind(this);
         this.handlePriceChange = this.handlePriceChange.bind(this);
         this.handleAmountChange = this.handleAmountChange.bind(this);
+        this.buttonOnSave = this.buttonOnSave.bind(this);
     }
 
     //sync with backend at event handlers here
     handleNameChange(event) {
         this.setState({ name: event.target.value });
-        fetch('http://localhost:5000', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ item_name: this.state.name })
-        })
     }
 
     handlePriceChange(event) {
         this.setState({ price: event.target.value });
-        fetch('http://localhost:5000', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ item_price: this.state.price })
-        })
     }
 
     handleAmountChange(event) {
         this.setState({ amount: event.target.value });
+    }
+
+    buttonOnSave(){
+        this.setState({ editing: false });
         fetch('http://localhost:5000', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ item_amount: this.state.amount })
+            body: JSON.stringify({ action: "update", id: this.id, item_name: this.state.name,  item_price: this.state.price, item_amount: this.state.amount, })
         })
     }
 
@@ -104,7 +100,7 @@ class editableFields extends React.Component {
             const amountField = e("input", { value: this.state.amount, onChange: this.handleAmountChange, class: "form-control" });
             const saveButton = e(
                 'button',
-                { onClick: () => this.setState({ editing: false }), class: "btn btn-outline-primary" },
+                { onClick: this.buttonOnSave, class: "btn btn-outline-primary" },
                 'Save'
             );
             col1 = e("div", { class: "col-sm" }, nameField);

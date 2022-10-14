@@ -15,14 +15,14 @@ api = Api(app)
 @app.route('/', methods=['GET', 'POST'])
 @cross_origin()
 def index():
-    form = ItemForm()
+    #form = ItemForm()
     if (request.method == "POST"):
         jsonData = request.get_json()
         print(jsonData)
         return {
             'name': jsonData
         }
-    return render_template("index.html", form=form)
+    return render_template("index.html")
 
 
 ####### Run Applications #######
