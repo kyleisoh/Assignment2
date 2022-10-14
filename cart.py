@@ -1,34 +1,31 @@
 from collections import defaultdict
 from item import Item
 
+dummy = Item(-1, 0, 0, 0)
+
 
 class Cart():
-
     def __init__(self):
-        self.subtotal = 0.00
         self.discount = 0
+        self.tax = 100
         self.pretax_totalprice = self.subtotal - \
             (self.subtotal * (self.discount / 100))
-        self.aftertax_totalprice = self.pretax_totalprice * 1.15
-        self.cart = {}
+        self.aftertax_totalprice = self.pretax_totalprice * self.tax
+        self.itemList = [dummy]
 
     def addItem(self, item: Item) -> None:
-        id, name, price, quantity = item.id, item.name, item.price, item.quantity
-        if (id not in self.cart):
-            self.cart[id] = [name, price, quantity]
+        self.itemList.append(item)
 
-        else:
-            # the item with the same id exists in our cart, update the name, price, quantity
-            self.cart[id][0] = name
-            self.cart[id][1] = price
-            self.cart[id][2] = quantity
+    def removeItem(self) -> None:
+        self.itemList.pop()
 
-    def removeItem(self, item: Item) -> None:
-        id = self.item.id
-        self.cart.pop(id)
+    def updateItem(self, item: Item) -> None:
+        self.itemList[item.id] = item
 
-    def applyDiscount(self, discount) -> None:
-        self.discount = discount
+    def applyDiscount(self) -> None:
 
-    def applyTax(self) -> float:
+    def calculateSubTotal(self):
+        self.subtotal = 0.00
+
+    def calculateTotal(self) -> float:
         return self.aftertax_totalprice
