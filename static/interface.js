@@ -66,19 +66,30 @@ class editableFields extends React.Component {
 
     //sync with backend at event handlers here
     handleNameChange(event) {
+        this.setState({ name: event.target.value });
         fetch('http://localhost:5000', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title: 'React POST Request Example' })
+            body: JSON.stringify({ item_name: this.state.name })
         })
-        this.setState({ name: event.target.value });
     }
 
     handlePriceChange(event) {
         this.setState({ price: event.target.value });
+        fetch('http://localhost:5000', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ item_price: this.state.price })
+        })
     }
+
     handleAmountChange(event) {
         this.setState({ amount: event.target.value });
+        fetch('http://localhost:5000', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ item_amount: this.state.amount })
+        })
     }
 
     render() {
