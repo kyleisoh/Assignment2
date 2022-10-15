@@ -85,12 +85,12 @@ class itemsField extends React.Component {
         }
         const addButton = e(
             'button',
-            { onClick: this.handleAddButton },
+            { onClick: this.handleAddButton, class: "btn btn-outline-primary" },
             'add'
         );
         const delButton = e(
             'button',
-            { onClick: this.handleDeleteButton },
+            { onClick: this.handleDeleteButton, class: "btn btn-outline-primary" },
             'delete'
         );
         field_array.push(addButton);
