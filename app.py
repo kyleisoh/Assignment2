@@ -52,9 +52,11 @@ def index():
             taxRate = itemData['taxRate']
             cart.tax = int(taxRate)
 
-        print(cart.subtotal)
+        print(cart.subtotal)        
         cart.calculateTotal()
         print(cart.total)
+        rtdict = {"netTotal": cart.subtotal, "grandTotal": cart.total}
+        return(json.dumps(rtdict))
 
     if (request.method == "GET"):
         pass

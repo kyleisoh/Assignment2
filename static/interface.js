@@ -4,15 +4,24 @@ const e = React.createElement;
 class itemsField extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { numfields: 1, tax: 0, discount: 0 };
+        this.state = { numfields: 1, tax: 0, discount: 0, netTotal: 0, grandTotal: 0};
         this.handleDiscount = this.handleDiscount.bind(this);
         this.handleTax = this.handleTax.bind(this);
         this.saveTax = this.saveTax.bind(this);
         this.saveDiscount = this.saveDiscount.bind(this);
         this.handleAddButton = this.handleAddButton.bind(this);
         this.handleDeleteButton = this.handleDeleteButton.bind(this);
+        this.UpdateFromResponse = this.UpdateFromResponse.bind(this)
     }
 
+    UpdateFromResponse(data){
+        console.log(data);
+        console.log(data.netTotal);        
+        
+        this.setState({ netTotal:data.netTotal })
+        this.setState({ grandTotal:data.grandTotal })
+    }
+    
     handleDiscount(event) {
         this.setState({ discount: event.target.value });
     }
@@ -27,6 +36,8 @@ class itemsField extends React.Component {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ action: "tax", taxRate: this.state.tax })
         })
+        .then(res => res.json())
+        .then(this.UpdateFromResponse)       
     }
 
     saveDiscount() {
@@ -35,6 +46,8 @@ class itemsField extends React.Component {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ action: "discount", discountRate: this.state.discount })
         })
+        .then(res => res.json())
+        .then(this.UpdateFromResponse)
     }
 
     handleAddButton() {
@@ -53,6 +66,8 @@ class itemsField extends React.Component {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ action: "delete", item_name: "default", item_price: 0, item_amount: 0 })
         })
+        .then(res => res.json())
+        .then(this.UpdateFromResponse)
     }
 
     render() {
@@ -65,7 +80,7 @@ class itemsField extends React.Component {
         field_array.push(e("hr", null, null));
 
         for (let i = 0; i < this.state.numfields; i++) {
-            const editableField = e(editableFields, { id: i });
+            const editableField = e(editableFields, { id: i, UpdateFromResponse : this.UpdateFromResponse});
             field_array.push(editableField);
         }
         const addButton = e(
@@ -81,7 +96,7 @@ class itemsField extends React.Component {
         field_array.push(addButton);
         field_array.push(delButton);
         field_array.push(e("hr", null, null));
-        field_array.push(e("p", { class: "summary_text" }, "Net-total: "));
+        field_array.push(e("p", { class: "summary_text" }, "Net-total: " + this.state.netTotal));
         const tax = e("div", { class: "col-sm" }, e("span", null, "Tax(%):"), e("input", { value: this.state.tax, onChange: this.handleTax, class: "form-control" }, null),
             e('button', { onClick: this.saveTax, class: "btn btn-outline-primary" }, "Save"));
         const discount = e("div", { class: "col-sm" }, e("span", null, "Discount(%): "), e("input", { value: this.state.discount, onChange: this.handleDiscount, class: "form-control" }, null),
@@ -90,7 +105,7 @@ class itemsField extends React.Component {
         //field_array.push(e("div", {class: "row"}, placeHolder, placeHolder, ));
         field_array.push(e("div", { class: "row" }, discount, tax, placeHolder));
         field_array.push(e("hr", null, null));
-        field_array.push(e("p", { class: "summary_text" }, "Grand-total: "));
+        field_array.push(e("p", { class: "summary_text" }, "Grand-total: " + this.state.grandTotal));
 
 
         return e("div", null, field_array);
@@ -101,6 +116,7 @@ class itemsField extends React.Component {
 class editableFields extends React.Component {
     constructor(props) {
         super(props);
+        this.props = props;
         this.id = props.id
         this.state = { name: "default", price: 0, amount: 0, editing: true };
         this.handleNameChange = this.handleNameChange.bind(this);
@@ -129,6 +145,8 @@ class editableFields extends React.Component {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ action: "update", id: this.id, item_name: this.state.name, item_price: this.state.price, item_amount: this.state.amount })
         })
+        .then(res => res.json())
+        .then(this.props.UpdateFromResponse)
     }
 
     render() {
