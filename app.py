@@ -29,20 +29,12 @@ def index():
             item = Item(itemData['id'], itemData['item_name'],
                         itemData['item_price'], itemData['item_amount'])
             cart.addItem(item)
-            print(item.id)
-            print(item.name)
-            print(item.price)
-            print(item.quantity)
 
         elif (itemData['action'] == 'update'):
             # Update Item
             item = Item(itemData['id'], itemData['item_name'],
                         itemData['item_price'], itemData['item_amount'])
             cart.updateItem(item)
-            print(item.id)
-            print(item.name)
-            print(item.price)
-            print(item.quantity)
 
         elif (itemData['action'] == 'discount'):
             discountRate = itemData['discountRate']
@@ -52,9 +44,7 @@ def index():
             taxRate = itemData['taxRate']
             cart.tax = int(taxRate)
 
-        print(cart.subtotal)
         cart.calculateTotal()
-        print(cart.total)
         rtdict = {"netTotal": cart.subtotal, "grandTotal": cart.total}
         return (json.dumps(rtdict))
 
